@@ -1,4 +1,6 @@
-﻿namespace ExtractCameraXP
+﻿using System.Linq;
+
+namespace ExtractCameraXP
 {
     public static class Crc32
     {
@@ -51,12 +53,7 @@
 
         public static uint GetHashCode(byte[] data)
         {
-            var crc = 0xffffffff;
-
-            foreach (var t in data)
-                crc = (crc << 8) ^ CrcTable[((crc >> 24) ^ t) & 0xff];
-
-            return crc;
+            return data.Aggregate(0xffffffff, (current, t) => (current << 8) ^ CrcTable[((current >> 24) ^ t) & 0xff]);
         }
 
     }
